@@ -2,13 +2,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-blue)](https://marketplace.visualstudio.com/)
-[![Version](https://img.shields.io/badge/version-1.0.4-green.svg)](https://github.com/kdeosingh/ai-voice-plugin)
+[![Version](https://img.shields.io/badge/version-1.0.5-green.svg)](https://github.com/kdeosingh/ai-voice-plugin)
 
 **Code at the speed of thought!** Transform your voice into code, comments, and AI conversations directly within Cursor. Powered by OpenAI's cutting-edge **Whisper** and **GPT** models for lightning-fast, accurate speech recognition and intelligent responses.
 
 > *Imagine coding without breaking your flow - speak your ideas directly into your editor and watch them come to life instantly.*
 
-> *Please install v1.0.5 and up for issues with installing and running the extension.*
+> **⚠️ IMPORTANT: Please install v1.0.5 or later! Earlier versions have installation and compatibility issues that prevent proper functionality.**
 
 ## 🚀 Quick Start (3 Steps)
 
