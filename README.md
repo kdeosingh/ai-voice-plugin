@@ -8,6 +8,30 @@
 
 > *Imagine coding without breaking your flow - speak your ideas directly into your editor and watch them come to life instantly.*
 
+> *Please install v1.0.5 and up for issues with installing and running the extension.*
+
+## 🚀 Quick Start (3 Steps)
+
+### **Step 1: Configure OpenAI**
+1. **Open Command Palette** (`Ctrl+Shift+P`)
+2. **Type**: `⚙️ Voice AI Settings`
+3. **Set your OpenAI API Key** (get one from [OpenAI](https://platform.openai.com/api-keys))
+
+### **Step 2: Start Recording**  
+1. **Look for mic icon** `🎤 Voice AI` in bottom-right status bar
+2. **Click the mic icon** to open recording panel
+3. **Click "Start Recording"** and speak your thoughts
+
+### **Step 3: Use Your Voice**
+- **Record your ideas** → Get instant transcription
+- **Click "Send to ChatGPT"** → Get AI feedback and suggestions  
+- **Click "Copy"** → Paste transcribed text anywhere in Cursor
+
+> 💡 **Pro Tip**: Use **gpt-4o-transcribe** model and **0.1 temperature** for best accuracy (these are now the defaults!)
+
+---
+
+
 ## ✨ Why AI Voice Transcription?
 
 ### 🚀 **Revolutionary Workflow**

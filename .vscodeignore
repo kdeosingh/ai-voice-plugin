@@ -6,7 +6,7 @@ backup/
 *.log
 .git/
 .gitignore
-node_modules/
+# node_modules/ - REMOVED to include dependencies
 
 
 

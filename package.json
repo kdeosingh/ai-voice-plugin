@@ -2,7 +2,7 @@
   "name": "voice-transcription",
   "displayName": "AI Voice Transcription for Cursor",
   "description": "Talk directly to Cursor with your voice! Seamlessly transform speech into code, comments, and commands using OpenAI's GPT-4o Transcribe - all without leaving your editor. Imagine coding at the speed of thought, with AI.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "publisher": "kdeosingh",
   "icon": "icon.png",
   "license": "MIT",
@@ -46,6 +46,10 @@
       {
         "command": "voiceAI.settings",
         "title": "⚙️ Voice AI Settings"
+      },
+      {
+        "command": "voiceAI.testSettings",
+        "title": "🔧 Test Voice AI Settings"
       }
     ],
     "configuration": {
@@ -58,7 +62,7 @@
         },
         "voiceAI.transcriptionModel": {
           "type": "string",
-          "default": "whisper-1",
+          "default": "gpt-4o-transcribe",
           "enum": [
             "whisper-1",
             "gpt-4o-transcribe"
@@ -77,7 +81,7 @@
         },
         "voiceAI.temperature": {
           "type": "number",
-          "default": 0.7,
+          "default": 0.1,
           "minimum": 0,
           "maximum": 2,
           "description": "AI temperature"

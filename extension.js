@@ -35,8 +35,9 @@ function activate(context) {
     // Register all commands
     const recordCommand = vscode.commands.registerCommand('voiceAI.record', startRecording);
     const settingsCommand = vscode.commands.registerCommand('voiceAI.settings', openSettings);
+    const testCommand = vscode.commands.registerCommand('voiceAI.testSettings', testSettings);
     
-    context.subscriptions.push(recordCommand, settingsCommand);
+    context.subscriptions.push(recordCommand, settingsCommand, testCommand);
     
     console.log('✅ Complete Voice AI Assistant fully activated');
 }
@@ -215,14 +216,28 @@ async function processRecordedAudio(audioFilePath) {
         const config = vscode.workspace.getConfiguration('voiceAI');
         const apiKey = config.get('openaiApiKey');
         
-        if (!apiKey) {
+        console.log('Debug - API Key check:', apiKey ? 'API key is set' : 'API key is missing');
+        console.log('Debug - Config object:', config);
+        console.log('Debug - All voiceAI settings:', {
+            apiKey: apiKey ? '***HIDDEN***' : 'NOT SET',
+            transcriptionModel: config.get('transcriptionModel'),
+            gptModel: config.get('gptModel'),
+            temperature: config.get('temperature'),
+            audioQuality: config.get('audioQuality')
+        });
+        
+        if (!apiKey || apiKey.trim() === '') {
+            const errorMessage = 'Please set your OpenAI API key in settings (⚙️ Voice AI Settings) to enable transcription.';
+            console.error('API key missing or empty');
+            
             if (recordingPanel) {
                 recordingPanel.webview.postMessage({
                     command: 'results',
-                    transcription: 'Please set your OpenAI API key in settings to enable transcription.',
+                    transcription: errorMessage,
                     feedback: null // Don't show AI feedback section
                 });
             }
+            vscode.window.showWarningMessage('OpenAI API key not configured. Click ⚙️ Voice AI Settings to configure.');
             return;
         }
 
@@ -234,8 +249,8 @@ async function processRecordedAudio(audioFilePath) {
             // Transcribe the audio file
             const transcription = await openai.audio.transcriptions.create({
                 file: fs.createReadStream(audioFilePath),
-                model: config.get('transcriptionModel') || 'whisper-1',
-                temperature: config.get('temperature') || 0.2,
+                model: config.get('transcriptionModel') || 'gpt-4o-transcribe',
+                temperature: config.get('temperature') || 0.1,
                 language: 'en'
             });
 
@@ -286,18 +301,57 @@ function openSettings() {
     vscode.commands.executeCommand('workbench.action.openSettings', 'voiceAI');
 }
 
+function testSettings() {
+    const config = vscode.workspace.getConfiguration('voiceAI');
+    const apiKey = config.get('openaiApiKey');
+    
+    const settingsInfo = {
+        apiKey: apiKey ? `Set (${apiKey.length} characters)` : 'NOT SET',
+        transcriptionModel: config.get('transcriptionModel') || 'Not set',
+        gptModel: config.get('gptModel') || 'Not set',
+        temperature: config.get('temperature') || 'Not set',
+        audioQuality: config.get('audioQuality') || 'Not set'
+    };
+    
+    console.log('Voice AI Settings Test:', settingsInfo);
+    
+    const message = `Voice AI Settings Test:
+• API Key: ${settingsInfo.apiKey}
+• Transcription Model: ${settingsInfo.transcriptionModel}
+• GPT Model: ${settingsInfo.gptModel}
+• Temperature: ${settingsInfo.temperature}
+• Audio Quality: ${settingsInfo.audioQuality}
+
+${apiKey ? '✅ API Key is configured!' : '❌ API Key is missing - click ⚙️ Voice AI Settings to configure'}`;
+    
+    vscode.window.showInformationMessage(message, 'Open Settings', 'Copy Debug Info').then(selection => {
+        if (selection === 'Open Settings') {
+            openSettings();
+        } else if (selection === 'Copy Debug Info') {
+            vscode.env.clipboard.writeText(JSON.stringify(settingsInfo, null, 2));
+            vscode.window.showInformationMessage('Debug info copied to clipboard!');
+        }
+    });
+}
+
 async function sendToChatGPT(text) {
     try {
         const config = vscode.workspace.getConfiguration('voiceAI');
         const apiKey = config.get('openaiApiKey');
         
-        if (!apiKey) {
+        console.log('Debug ChatGPT - API Key check:', apiKey ? 'API key is set' : 'API key is missing');
+        
+        if (!apiKey || apiKey.trim() === '') {
+            const errorMessage = 'Please set your OpenAI API key in settings (⚙️ Voice AI Settings) to use ChatGPT.';
+            console.error('ChatGPT: API key missing or empty');
+            
             if (recordingPanel) {
                 recordingPanel.webview.postMessage({
                     command: 'chatGPTResponse',
-                    response: 'Please set your OpenAI API key in settings to use ChatGPT.'
+                    response: errorMessage
                 });
             }
+            vscode.window.showWarningMessage('OpenAI API key not configured for ChatGPT. Click ⚙️ Voice AI Settings to configure.');
             return;
         }
 
@@ -313,7 +367,7 @@ async function sendToChatGPT(text) {
                     content: text
                 }
             ],
-            temperature: config.get('temperature') || 0.7,
+            temperature: config.get('temperature') || 0.1,
             max_tokens: 1000
         });
         
