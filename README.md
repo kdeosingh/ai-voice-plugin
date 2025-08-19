@@ -7,6 +7,7 @@
 **Code at the speed of thought!** Transform your voice into code, comments, and AI conversations directly within Cursor. Powered by OpenAI's cutting-edge **Whisper** and **GPT** models for lightning-fast, accurate speech recognition and intelligent responses.
 
 > *Imagine coding without breaking your flow - speak your ideas directly into your editor and watch them come to life instantly.*
+> Versions before 1.0.4 may have issues installing. Please reinstall this from v1.0.4 and up!
 
 ## ✨ Why AI Voice Transcription?
 
